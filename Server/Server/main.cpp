@@ -87,7 +87,9 @@ int main()
         send(clientSocket, buf, bytesReceived + 1, 0);
     }
 
-    // close the sock
+    // Close the sock
+    closesocket(clientSocket);
+
 
     // Shutdown winsock
 }
