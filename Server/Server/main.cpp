@@ -8,6 +8,15 @@ using namespace std;
 int main()
 {
 	// Initialze winsock
+    WSADATA wsData;
+	WORD ver = MAKEWORD(2, 2);
+
+	int wsOk = WSAStartup(ver, &wsData);
+	if (wsOk != 0)
+	{
+		cerr << "Can't Initialize winsock! Quitting" << endl;
+		return 99;
+	}
 
 	// Create a socket
 
