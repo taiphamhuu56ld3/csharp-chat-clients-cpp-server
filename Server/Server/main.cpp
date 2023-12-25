@@ -38,6 +38,27 @@ int main()
     listen(listening, SOMAXCONN);
 
     // Wait for a connection
+    sockaddr_in client;
+    int clientSize = sizeof(client);
+
+    SOCKET clientSocket = accept(listening, (sockaddr*)&client, &clientSize);
+
+    char host[NI_MAXHOST];              // Clinet's remote name
+    char service[NI_MAXSERV];           // Service (1.e. port) the clinet is connect on
+
+    ZeroMemory(host, NI_MAXHOST);       // same as memset(host, 0, IN_MAXHOST);
+    ZeroMemory(service, NI_MAXSERV);
+
+    if (getnameinfo((sockaddr*)&client, sizeof(client), host, NI_MAXHOST, service, NI_MAXSERV, 0) == 0)
+    {
+        cout << host << " connection on port " << service << endl;
+    }
+    else
+    {
+        inet_ntop(AF_INET, &client.sin_addr, host, NI_MAXHOST);
+        cout << host << " connected on port " <<
+            ntohs(client.sin_port) << endl;
+    }
 
     // Close listening socket
 
