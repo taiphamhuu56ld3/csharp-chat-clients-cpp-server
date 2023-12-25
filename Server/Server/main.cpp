@@ -35,6 +35,7 @@ int main()
 	bind(listening, (sockaddr*)&hint, sizeof(hint));
 
 	// Tell Winsock the socket is for listening
+    listen(listening, SOMAXCONN);
 
     // Wait for a connection
 
