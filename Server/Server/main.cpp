@@ -106,6 +106,10 @@ int main()
             {
                 // Accept a new connection
                 SOCKET client = accept(listening, nullptr, nullptr);
+
+                // Add the new connection to the list of connected clients
+                FD_SET(client, &master);
+
             }
         }
 
