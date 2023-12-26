@@ -117,10 +117,12 @@ int main()
             else // If it's an inbound message
             {
                 char buf[4096];
+                ZeroMemory(buf, 4096);
+
+                // Receive message
+                int bytesIn = recv(sock, buf, 4096, 0);
             }
         }
-
-        ZeroMemory(buf, 4096);
         // Wait for client to send data
         int bytesReceived = recv(clientSocket, buf, 4096, 0);
         if (bytesReceived == SOCKET_ERROR)
