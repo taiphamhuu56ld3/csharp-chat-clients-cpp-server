@@ -121,6 +121,14 @@ int main()
 
                 // Receive message
                 int bytesIn = recv(sock, buf, 4096, 0);
+
+                if (bytesIn <= 0)
+                {
+                    // Drop the client
+                    closesocket(sock);
+                    cout << "Client disconnected " << endl;
+                    FD_CLR(sock, &master);
+                }
             }
         }
         // Wait for client to send data
