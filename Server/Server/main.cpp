@@ -129,6 +129,11 @@ int main()
                     cout << "Client disconnected " << endl;
                     FD_CLR(sock, &master);
                 }
+                else if (bytesIn == SOCKET_ERROR)
+                {
+                    cerr << "Error in recv(). Quitting" << endl;
+                    break;
+                }
                 else
                 {
                     // Check to see if it's a command. \quit kills the server
@@ -151,22 +156,6 @@ int main()
                 }
             }
         }
-        // Wait for client to send data
-        int bytesReceived = recv(clientSocket, buf, 4096, 0);
-        if (bytesReceived == SOCKET_ERROR)
-        {
-            cerr << "Error in recv(). Quitting" << endl;
-            break;
-        }
-
-        if (bytesReceived == 0)
-        {
-            cout << "Client disconnected " << endl;
-            break;
-        }
-
-        // Echo message back to client
-        send(clientSocket, buf, bytesReceived + 1, 0);
     }
 
     // Close the sock
