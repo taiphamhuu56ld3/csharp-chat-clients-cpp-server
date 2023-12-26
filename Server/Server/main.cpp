@@ -41,6 +41,11 @@ int main()
     fd_set master;
     FD_ZERO(&master);
 
+    // Add our first socket that we're interested in interacting with; the listening socket!
+    // It's important that this socket is added for our server or else we won't 'hear' incoming
+    // connections
+    FD_SET(listening, &master);
+
     // Wait for a connection
     sockaddr_in client;
     int clientSize = sizeof(client);
