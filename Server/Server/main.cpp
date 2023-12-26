@@ -100,6 +100,13 @@ int main()
         {
             // Assignment to sock
             SOCKET sock = copy.fd_array[i];
+
+            // Checking inbound communication
+            if (sock == listening)
+            {
+                // Accept a new connection
+                SOCKET client = accept(listening, nullptr, nullptr);
+            }
         }
 
         ZeroMemory(buf, 4096);
