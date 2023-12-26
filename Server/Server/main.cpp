@@ -1,5 +1,7 @@
 #include <iostream>
 #include <WS2tcpip.h>
+#include <string>
+#include <sstream>
 
 #pragma comment (lib, "ws2_32.lib")
 
@@ -152,6 +154,31 @@ int main()
                         // Unknown command
                         cout << "Unknown command" << endl;
                         continue;
+                    }
+
+                    // Send message to other clients, and definiately NOT the listening socket
+                    for (u_int i = 0; i < master.fd_count; i++)
+                    {
+                        SOCKET outSock = master.fd_array[i];
+                        if (outSock == listening)
+                        {
+                            continue;
+                        }
+
+                        ostringstream ss;
+
+                        if (outSock != sock)
+                        {
+                            ss << "SOCKET #" << sock << ":" << buf << "\r\n";
+                        }
+                        else
+                        {
+                            ss << "ME:" << buf << "\r\n";
+                        }
+
+                        string strOut = ss.str();
+                        send(outSock, strOut.c_str(), strOut.size() + 1, 0);
+                        cout << "Sent: " << strOut.c_str() << endl;
                     }
                 }
             }
