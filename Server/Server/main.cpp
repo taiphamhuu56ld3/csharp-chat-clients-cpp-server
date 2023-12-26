@@ -78,6 +78,23 @@ int main()
 
     while (running)
     {
+        // Make a copy of the master file descriptor set, this is SUPER important because
+        // the call to select() is _DESTRUCTIVE_. The copy only contains the sockets that
+        // are accepting inbound connection requests OR messages.
+
+        // E.g. You have a server and it's master file descriptor set contains 5 items;
+        // the listening socket and four clients. When you pass this set into select(),
+        // only the sockets that are interacting with the server are returned. Let's say
+        // only one client is sending a message at that time. The contents of 'copy' will
+        // be one socket. You will have LOST all the other sockets.
+
+        // SO MAKE A COPY OF THE MASTER LIST TO PASS INTO select() !!!
+
+        fd_set copy = master;
+
+        // See who's talking to us
+        int socketCount = select(0, &copy, nullptr, nullptr, nullptr);
+
         ZeroMemory(buf, 4096);
         // Wait for client to send data
         int bytesReceived = recv(clientSocket, buf, 4096, 0);
