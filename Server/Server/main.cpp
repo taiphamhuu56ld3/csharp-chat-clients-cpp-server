@@ -114,6 +114,10 @@ int main()
                 string welcomeMsg = "SERVER:Welcome to the Awesome Chat Server!";
                 send(client, welcomeMsg.c_str(), welcomeMsg.size() + 1, 0);
             }
+            else // If it's an inbound message
+            {
+                char buf[4096];
+            }
         }
 
         ZeroMemory(buf, 4096);
