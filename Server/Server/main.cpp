@@ -199,6 +199,9 @@ int main()
         FD_CLR(sock, &master);
         closesocket(sock);
     }
+
     // Shutdown winsock
     WSACleanup();
+    system("pause");
+    return 0;
 }
