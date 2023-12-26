@@ -37,6 +37,10 @@ int main()
     // Tell Winsock the socket is for listening
     listen(listening, SOMAXCONN);
 
+    // Create the master file descriptor set and zero it
+    fd_set master;
+    FD_ZERO(&master);
+
     // Wait for a connection
     sockaddr_in client;
     int clientSize = sizeof(client);
