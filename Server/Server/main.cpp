@@ -48,8 +48,6 @@ int main()
     // connections
     FD_SET(listening, &master);
 
-    // Wait for a connection
-    sockaddr_in hint;
     int clientSize = sizeof(hint);
 
     char host[NI_MAXHOST];              // Clinet's remote name
