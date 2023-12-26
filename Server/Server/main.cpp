@@ -49,10 +49,7 @@ int main()
     FD_SET(listening, &master);
 
     // Wait for a connection
-    sockaddr_in client;
-    int clientSize = sizeof(client);
 
-    SOCKET clientSocket = accept(listening, (sockaddr*)&client, &clientSize);
 
     char host[NI_MAXHOST];              // Clinet's remote name
     char service[NI_MAXSERV];           // Service (1.e. port) the clinet is connect on
@@ -185,8 +182,10 @@ int main()
         }
     }
 
-    // Close the sock
-    closesocket(clientSocket);
+    // Remove the listening socket from the master file descriptor set and close the socket
+    // to prevent anyone else trying to connect.
+    FD_CLR(listening, &master);
+    closesocket(listening);
 
     // Shutdown winsock
     WSACleanup();
