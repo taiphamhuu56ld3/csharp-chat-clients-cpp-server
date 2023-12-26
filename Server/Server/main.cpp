@@ -90,6 +90,6 @@ int main()
     // Close the sock
     closesocket(clientSocket);
 
-
     // Shutdown winsock
+    WSACleanup();
 }
