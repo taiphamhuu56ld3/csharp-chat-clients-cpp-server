@@ -95,6 +95,13 @@ int main()
         // See who's talking to us
         int socketCount = select(0, &copy, nullptr, nullptr, nullptr);
 
+        // Loop through all the current connections / potential connect
+        for (int i = 0; i < socketCount; i++)
+        {
+            // Assignment to sock
+            SOCKET sock = copy.fd_array[i];
+        }
+
         ZeroMemory(buf, 4096);
         // Wait for client to send data
         int bytesReceived = recv(clientSocket, buf, 4096, 0);
