@@ -74,8 +74,9 @@ int main()
 
     // While loop: accept and echo message back to client
     char buf[4096];
+    bool running = true;
 
-    while (true)
+    while (running)
     {
         ZeroMemory(buf, 4096);
         // Wait for client to send data
