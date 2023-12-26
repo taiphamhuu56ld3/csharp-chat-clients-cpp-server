@@ -129,6 +129,26 @@ int main()
                     cout << "Client disconnected " << endl;
                     FD_CLR(sock, &master);
                 }
+                else
+                {
+                    // Check to see if it's a command. \quit kills the server
+                    if (buf[0] == '\\')
+                    {
+                        // Get command
+                        string cmd = string(buf, bytesIn);
+                        // Is the command quit?
+                        if (cmd == "\\quit")
+                        {
+                            running = false;
+                            cout << "Quitting" << endl;
+                            break;
+                        }
+
+                        // Unknown command
+                        cout << "Unknown command" << endl;
+                        continue;
+                    }
+                }
             }
         }
         // Wait for client to send data
