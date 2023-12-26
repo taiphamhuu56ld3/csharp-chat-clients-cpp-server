@@ -183,6 +183,22 @@ int main()
     FD_CLR(listening, &master);
     closesocket(listening);
 
+    // Shutting down notification message
+    string msg = "SERVER:Server is shutting down. Goodbye\r\n";
+
+    while (master.fd_count > 0)
+    {
+        // Get the socket number
+        SOCKET sock = master.fd_array[0];
+
+        // Send the goodbye message
+        send(sock, msg.c_str(), msg.size() + 1, 0);
+        cout << "Sent: " << msg.c_str() << endl;
+
+        // Remove it from the master file list and close the socket
+        FD_CLR(sock, &master);
+        closesocket(sock);
+    }
     // Shutdown winsock
     WSACleanup();
 }
