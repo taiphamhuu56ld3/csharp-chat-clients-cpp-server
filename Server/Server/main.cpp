@@ -49,7 +49,8 @@ int main()
     FD_SET(listening, &master);
 
     // Wait for a connection
-
+    sockaddr_in hint;
+    int clientSize = sizeof(hint);
 
     char host[NI_MAXHOST];              // Clinet's remote name
     char service[NI_MAXSERV];           // Service (1.e. port) the clinet is connect on
@@ -57,22 +58,17 @@ int main()
     ZeroMemory(host, NI_MAXHOST);       // same as memset(host, 0, IN_MAXHOST);
     ZeroMemory(service, NI_MAXSERV);
 
-    if (getnameinfo((sockaddr*)&client, sizeof(client), host, NI_MAXHOST, service, NI_MAXSERV, 0) == 0)
+    if (getnameinfo((sockaddr*)&hint, sizeof(hint), host, NI_MAXHOST, service, NI_MAXSERV, 0) == 0)
     {
         cout << host << " connection on port " << service << endl;
     }
     else
     {
-        inet_ntop(AF_INET, &client.sin_addr, host, NI_MAXHOST);
+        inet_ntop(AF_INET, &hint.sin_addr, host, NI_MAXHOST);
         cout << host << " connected on port " <<
-            ntohs(client.sin_port) << endl;
+            ntohs(hint.sin_port) << endl;
     }
 
-    // Close listening socket
-    closesocket(listening);
-
-    // While loop: accept and echo message back to client
-    char buf[4096];
     bool running = true;
 
     while (running)
