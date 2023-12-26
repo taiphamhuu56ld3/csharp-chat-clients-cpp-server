@@ -110,6 +110,9 @@ int main()
                 // Add the new connection to the list of connected clients
                 FD_SET(client, &master);
 
+                // Send a welcome message to the connected client
+                string welcomeMsg = "SERVER:Welcome to the Awesome Chat Server!";
+                send(client, welcomeMsg.c_str(), welcomeMsg.size() + 1, 0);
             }
         }
 
